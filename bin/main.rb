@@ -2,40 +2,54 @@
 
 # frozen_string_literal: true
 
-class Main
-  attr_accessor :board
+require './lib/ticTacToe.rb'
 
-  def initialize(board=[" ", " ", " ", " ", " ", " ", " ", " ", " "])
-    #Initialize our board and game
-    @board = board
-    @moves=0
-    @winner=false
+class Main
+
+   attr_reader :player_in, :print_board, :print_choice
+
+  def initialize()
+    #Create instance of our game
+    @players=names_in
+    @game=TicTacToe.new(@players,self)
+    welcome
   end
 
-  def print_header
+  def welcome
     #player instructions
-    puts " "
-    puts 'Welcome to tic tac toe'
-    puts " "
+    system("clear")
     puts '--------------------INSTRUCTIONS----------------------'
     puts 'To play this game, you need to get three in a row...'
     puts 'Your choice are define, they must bef from 1 to 9...'
     puts '------------------------------------------------------'
-    puts 'Please provide player one name: '
-    player_one = gets.chomp()
-    puts 'Please provide player two name: '
-    player_two = gets.chomp()
     puts '**************************************************************'
-    puts "Player one X is #{player_one} vs Player two O is #{player_two}"
+    puts "Player one X is #{@game.player_one} vs Player two O is #{@game.player_two}"
     puts '**************************************************************'
-    puts "This is the positions players can choose"
-    game_start(player_one,player_two)
+    puts "These are the positions players can choose"
+    print_choice
+    @game.start
   end
 
-  def player_in(player)
+  def names_in
+    result = []
+    puts " "
+    puts 'Welcome to tic tac toe'
+    puts " "
+    puts 'Please provide player one name: '
+    result << gets.chomp()
+    puts 'Please provide player two name: '
+    result <<  gets.chomp()
+    system("clear")
+    result
+  end
+
+  def player_in(invalid_choice=nil)
     #Player input
+    puts invalid_choice if invalid_choice
+
     input=nil
     until input
+      puts 'Please select your move'
       input=gets.chomp.to_i
       case input
         when 1..9
@@ -45,66 +59,16 @@ class Main
           input = nil
       end
     end
-    move_peg(input,player)
-  end
-
-  def game_start(one,two)
-    until @winner
-      #Players start playing
-      print_board
-      print_choice
-      puts "#{one} select the position to play: "
-      player_in(1)
-      break if @winner
-      puts "#{two} select the position to play: "
-      player_in(2)
-      break if @winner
-    end
-  end
-
-  def move_peg(move,player)
-    #Player move
-    case player
-      when 1
-        if @board[(move.to_i-1)] != "X" || @board[(move.to_i-1)] != "O"
-          @moves+=1
-          @board[(move.to_i-1)]="X"
-        else
-          puts "invalid choice"
-          player_in(1)
-        end
-        system("clear")
-      when 2
-        if @board[(move.to_i-1)] != "X" || @board[(move.to_i-1)] != "O"
-          @moves+=1
-          @board[(move.to_i-1)]="O";
-        else
-          puts "invalid choice"
-          player_in(2)
-        end
-        system("clear")        
-    end
-    @winner=check_winner
-    if @winner
-      puts "game over"
-    else
-      print_board
-      print_choice
-    end
-  end
-
-  def check_winner
-    #Game finishes after 9 moves
-    @moves==9
+    return input
   end
 
   def print_board
     puts " "
-    puts " #{@board[0]} | #{@board[1]} | #{@board[2]}"
+    puts " #{@game.board[0]} | #{@game.board[1]} | #{@game.board[2]}"
     puts "-----------"
-    puts " #{@board[3]} | #{@board[4]} | #{@board[5]}"
+    puts " #{@game.board[3]} | #{@game.board[4]} | #{@game.board[5]}"
     puts "-----------"
-    puts " #{@board[6]} | #{@board[7]} | #{@board[8]}"
+    puts " #{@game.board[6]} | #{@game.board[7]} | #{@game.board[8]}"
     puts " "
   end
 
@@ -112,10 +76,9 @@ class Main
     puts "1 | 2 | 3"
     puts "4 | 5 | 6"
     puts "7 | 8 | 9"
-    puts "moves: #{@moves}"
+    puts "moves: #{@game.moves}"
     puts " "
   end
 end
 
 test = Main.new
-test.print_header
