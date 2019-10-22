@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TicTacToe
   attr_accessor :board, :moves, :player_one, :player_two
 
