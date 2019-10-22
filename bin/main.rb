@@ -79,6 +79,16 @@ class Main
     puts "moves: #{@game.moves}"
     puts " "
   end
+
+  def print_winner(player)
+    print_board
+    puts "Player #{player} won!"
+  end
+
+  def print_draw
+    puts "It's a DRAW!!"
+  end
+
 end
 
 test = Main.new

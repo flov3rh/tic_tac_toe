@@ -52,7 +52,6 @@ class TicTacToe
 
   def check_winner
     #Game finishes after 9 moves
-    @moves==9
     # check for player X Win
     # if @board.each_cons(3).map(&:select)
     #   puts "Player X won!"
@@ -65,7 +64,7 @@ class TicTacToe
       (@board[2]=="X" && @board[5]=="X" && @board[8]=="X") ||
       (@board[0]=="X" && @board[4]=="X" && @board[8]=="X") ||
       (@board[2]=="X" && @board[4]=="X" && @board[6]=="X")
-      puts "Player X won!"
+      @main.print_winner(@player_one)
       true
     elsif (@board[0]=="O" && @board[1]=="O" && @board[2]=="O") ||
       (@board[3]=="O" && @board[4]=="O" && @board[5]=="O") ||
@@ -75,7 +74,10 @@ class TicTacToe
       (@board[2]=="O" && @board[5]=="O" && @board[8]=="O") ||
       (@board[0]=="O" && @board[4]=="O" && @board[8]=="O") ||
       (@board[2]=="O" && @board[4]=="O" && @board[6]=="O")
-      puts "Player O won!"
+      @main.print_winner(@player_two)
+      true
+    elsif @moves == 9
+      @main.print_draw()
       true
     end
     # check for plaer O Win
