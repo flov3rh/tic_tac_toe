@@ -6,11 +6,14 @@ class Main
   attr_accessor :board
 
   def initialize(board=[" ", " ", " ", " ", " ", " ", " ", " ", " "])
+    #Initialize our board and game
     @board = board
     @moves=0
+    @winner=false
   end
 
   def print_header
+    #player instructions
     puts " "
     puts 'Welcome to tic tac toe'
     puts " "
@@ -29,28 +32,70 @@ class Main
     game_start(player_one,player_two)
   end
 
+  def player_in(player)
+    #Player input
+    input=nil
+    until input
+      input=gets.chomp.to_i
+      case input
+        when 1..9
+          #input range
+        else
+          puts "invalid choice"
+          input = nil
+      end
+    end
+    move_peg(input,player)
+  end
+
   def game_start(one,two)
-    while @moves<10
+    until @winner
+      #Players start playing
       print_board
       print_choice
       puts "#{one} select the position to play: "
-      move_peg(gets.chomp,1)
+      player_in(1)
+      break if @winner
       puts "#{two} select the position to play: "
-      move_peg(gets.chomp,2)
+      player_in(2)
+      break if @winner
     end
   end
 
   def move_peg(move,player)
+    #Player move
     case player
       when 1
-        @moves+=1
-        @board[(move.to_i-1)]="X";
+        if @board[(move.to_i-1)] != "X" || @board[(move.to_i-1)] != "O"
+          @moves+=1
+          @board[(move.to_i-1)]="X"
+        else
+          puts "invalid choice"
+          player_in(1)
+        end
+        system("clear")
       when 2
-        @moves+=1
-        @board[(move.to_i-1)]="O";
+        if @board[(move.to_i-1)] != "X" || @board[(move.to_i-1)] != "O"
+          @moves+=1
+          @board[(move.to_i-1)]="O";
+        else
+          puts "invalid choice"
+          player_in(2)
+        end
+        system("clear")        
     end
-    print_board
-    print_choice
+    @winner=check_winner
+    if @winner
+      puts "game over"
+    else
+      print_board
+      print_choice
+    end
+  end
+
+  def check_winner
+    #Game finishes after 9 moves
+    @moves==9
   end
 
   def print_board
@@ -67,6 +112,8 @@ class Main
     puts "1 | 2 | 3"
     puts "4 | 5 | 6"
     puts "7 | 8 | 9"
+    puts "moves: #{@moves}"
+    puts " "
   end
 end
 
