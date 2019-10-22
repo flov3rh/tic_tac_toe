@@ -49,7 +49,7 @@ class Main
 
     input=nil
     until input
-      puts 'Please select your move'
+      puts "Please select your move #{@game.turn}"
       input=gets.chomp.to_i
       case input
         when 1..9
