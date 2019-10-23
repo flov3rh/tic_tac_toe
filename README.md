@@ -1,4 +1,4 @@
-#tic tac toe project
+#### tic tac toe project
 
 This is the tic tac toe project of the Ruby course of Main curriculum at [Microverse](https://www.microverse.org/) - @microverseinc
 
