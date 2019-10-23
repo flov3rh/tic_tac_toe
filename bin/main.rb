@@ -82,7 +82,8 @@ class Main
 
   def print_winner(player)
     print_board
-    puts "Player #{player} won!"
+    puts "Player #{player.name} won!" unless player == "DRAW"
+    print_draw if player == "DRAW"
   end
 
   def print_draw

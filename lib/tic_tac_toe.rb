@@ -13,7 +13,7 @@ class TicTacToe
     @player_two = Player.new(players[1])
     @turn = @player_one
     @main = main
-    @winner=""
+    @winner = ''
   end
 
   def start
@@ -32,7 +32,7 @@ class TicTacToe
       if @board[(move.to_i - 1)] != 'X' && @board[(move.to_i - 1)] != 'O'
         @moves += 1
         @board[(move.to_i - 1)] = 'X'
-        @game_over = check_win
+        @game_over = check_win?
         @turn = @player_two
       else
         move_peg(@main.player_in('Invalid Choice'), @turn)
@@ -42,15 +42,20 @@ class TicTacToe
       if @board[(move.to_i - 1)] != 'X' && @board[(move.to_i - 1)] != 'O'
         @moves += 1
         @board[(move.to_i - 1)] = 'O'
-        @game_over = check_win
+        @game_over = check_win?
         @turn = @player_one
       else
         move_peg(@main.player_in('Invalid Choice'), @turn)
       end
       system('clear')
     end
+
+    isgamestill
+  end
+
+  def isgamestill
     if @game_over
-      @main.print_winner(@winner.name)
+      @main.print_winner(@winner)
     else
       @main.print_board
       @main.print_choice
@@ -58,31 +63,41 @@ class TicTacToe
   end
 
   def all_equal?(arr)
-    @winner=@turn
-    arr.uniq.size <= 1 unless arr.all? { |x| x == " "}
+    # asigns the value to result if the array has no empty spaces = " "
+    result = arr.uniq.size <= 1 unless arr.all? { |x| x == ' ' }
+    # and if it's true sets a winner
+    @winner = @turn if result
+    result
   end
 
-  def check_win
+  def check_win?
+    # Returns true if any of the winning cases return true
+    if @moves >= 9
+      @winner = 'DRAW'
+      return true
+    end
     # for rows
     all_equal?(board[0..2]) ||
-    all_equal?(board[3..5]) ||
-    all_equal?(board[6..8]) ||
+      all_equal?(board[3..5]) ||
+      all_equal?(board[6..8]) ||
 
-    # for colums
-    all_equal?([board[0], board[3], board[6]]) ||
-    all_equal?([board[1], board[4], board[7]]) ||
-    all_equal?([board[2], board[5], board[8]]) ||
+      # for colums
+      all_equal?([board[0], board[3], board[6]]) ||
+      all_equal?([board[1], board[4], board[7]]) ||
+      all_equal?([board[2], board[5], board[8]]) ||
 
-    # for diagonals
-    all_equal?([board[0], board[4], board[8]]) ||
-    all_equal?([board[2], board[4], board[6]])
+      # for diagonals
+      all_equal?([board[0], board[4], board[8]]) ||
+      all_equal?([board[2], board[4], board[6]])
   end
+  # rubocop: enable Metrics/CyclomaticComplexity
+  # rubocop: enable Metrics/PerceivedComplexity
 end
 
 class Player
   attr_reader :name
 
   def initialize(name)
-    @name=name
+    @name = name
   end
 end
