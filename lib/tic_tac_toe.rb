@@ -22,6 +22,8 @@ class TicTacToe
     end
   end
 
+  # rubocop: disable Metrics/CyclomaticComplexity
+  # rubocop: disable Metrics/PerceivedComplexity
   def move_peg(move, player)
     # Player move
     case player
@@ -83,6 +85,7 @@ class TicTacToe
       @main.print_draw
       true
     end
-    # check for plaer O Win
+    # rubocop: enable Metrics/CyclomaticComplexity
+    # rubocop: enable Metrics/PerceivedComplexity
   end
 end
