@@ -2,7 +2,7 @@
 
 # frozen_string_literal: true
 
-require './lib/ticTacToe.rb'
+require './lib/tic_tac_toe.rb'
 
 class Main
 
