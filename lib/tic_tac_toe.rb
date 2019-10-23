@@ -7,16 +7,17 @@ class TicTacToe
   def initialize(players, main, board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '], moves = 0)
     # Initialize our board and game
     @board = board
-    @winner = false
+    @game_over = false
     @moves = moves
-    @player_one = players[0]
-    @player_two = players[1]
+    @player_one = Player.new(players[0])
+    @player_two = Player.new(players[1])
     @turn = @player_one
     @main = main
+    @winner=""
   end
 
   def start
-    until @winner
+    until @game_over
       # Players start playing
       move_peg(@main.player_in, @turn)
     end
@@ -31,6 +32,7 @@ class TicTacToe
       if @board[(move.to_i - 1)] != 'X' && @board[(move.to_i - 1)] != 'O'
         @moves += 1
         @board[(move.to_i - 1)] = 'X'
+        @game_over = check_win
         @turn = @player_two
       else
         move_peg(@main.player_in('Invalid Choice'), @turn)
@@ -40,52 +42,47 @@ class TicTacToe
       if @board[(move.to_i - 1)] != 'X' && @board[(move.to_i - 1)] != 'O'
         @moves += 1
         @board[(move.to_i - 1)] = 'O'
+        @game_over = check_win
         @turn = @player_one
       else
         move_peg(@main.player_in('Invalid Choice'), @turn)
       end
       system('clear')
     end
-    @winner = check_winner
-    if @winner
-      puts 'game over'
+    if @game_over
+      @main.print_winner(@winner.name)
     else
       @main.print_board
       @main.print_choice
     end
   end
 
-  def check_winner
-    # Game finishes after 9 moves
-    # check for player X Win
-    # if @board.each_cons(3).map(&:select)
-    #   puts "Player X won!"
-    #   true
-    if (@board[0] == 'X' && @board[1] == 'X' && @board[2] == 'X') ||
-       (@board[3] == 'X' && @board[4] == 'X' && @board[5] == 'X') ||
-       (@board[6] == 'X' && @board[7] == 'X' && @board[8] == 'X') ||
-       (@board[0] == 'X' && @board[3] == 'X' && @board[6] == 'X') ||
-       (@board[1] == 'X' && @board[4] == 'X' && @board[7] == 'X') ||
-       (@board[2] == 'X' && @board[5] == 'X' && @board[8] == 'X') ||
-       (@board[0] == 'X' && @board[4] == 'X' && @board[8] == 'X') ||
-       (@board[2] == 'X' && @board[4] == 'X' && @board[6] == 'X')
-      @main.print_winner(@player_one)
-      true
-    elsif (@board[0] == 'O' && @board[1] == 'O' && @board[2] == 'O') ||
-          (@board[3] == 'O' && @board[4] == 'O' && @board[5] == 'O') ||
-          (@board[6] == 'O' && @board[7] == 'O' && @board[8] == 'O') ||
-          (@board[0] == 'O' && @board[3] == 'O' && @board[6] == 'O') ||
-          (@board[1] == 'O' && @board[4] == 'O' && @board[7] == 'O') ||
-          (@board[2] == 'O' && @board[5] == 'O' && @board[8] == 'O') ||
-          (@board[0] == 'O' && @board[4] == 'O' && @board[8] == 'O') ||
-          (@board[2] == 'O' && @board[4] == 'O' && @board[6] == 'O')
-      @main.print_winner(@player_two)
-      true
-    elsif @moves == 9
-      @main.print_draw
-      true
-    end
-    # rubocop: enable Metrics/CyclomaticComplexity
-    # rubocop: enable Metrics/PerceivedComplexity
+  def all_equal?(arr)
+    @winner=@turn
+    arr.uniq.size <= 1 unless arr.all? { |x| x == " "}
+  end
+
+  def check_win
+    # for rows
+    all_equal?(board[0..2]) ||
+    all_equal?(board[3..5]) ||
+    all_equal?(board[6..8]) ||
+
+    # for colums
+    all_equal?([board[0], board[3], board[6]]) ||
+    all_equal?([board[1], board[4], board[7]]) ||
+    all_equal?([board[2], board[5], board[8]]) ||
+
+    # for diagonals
+    all_equal?([board[0], board[4], board[8]]) ||
+    all_equal?([board[2], board[4], board[6]])
+  end
+end
+
+class Player
+  attr_reader :name
+
+  def initialize(name)
+    @name=name
   end
 end

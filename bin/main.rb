@@ -23,7 +23,7 @@ class Main
     puts 'Your choice are define, they must bef from 1 to 9...'
     puts '------------------------------------------------------'
     puts '**************************************************************'
-    puts "Player one X is #{@game.player_one} vs Player two O is #{@game.player_two}"
+    puts "Player one X is #{@game.player_one.name} vs Player two O is #{@game.player_two.name}"
     puts '**************************************************************'
     puts "These are the positions players can choose"
     print_choice
@@ -49,7 +49,7 @@ class Main
 
     input=nil
     until input
-      puts "Please select your move #{@game.turn}"
+      puts "Please select your move #{@game.turn.name}"
       input=gets.chomp.to_i
       case input
         when 1..9
