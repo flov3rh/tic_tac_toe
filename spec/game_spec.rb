@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../lib/player_2.rb'
+require_relative '../lib/player.rb'
 require_relative '../lib/game.rb'
 
 RSpec.describe 'Game' do

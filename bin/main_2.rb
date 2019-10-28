@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require_relative "../lib/game.rb"
-require_relative "../lib/player_2.rb"
+require_relative "../lib/player.rb"
 
 def main
   system("clear")
