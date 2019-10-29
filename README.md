@@ -8,8 +8,7 @@ This is the tic tac toe project of the Ruby course of Main curriculum at [Microv
 #### [Assignment link](https://www.theodinproject.com/courses/ruby-programming/lessons/oop)
 
 #### Instructions
-* Execute the file ./bin/main.rb
-* Select the name of the players
+* Execute the file ./bin/main_2.rb
 * A player can only select a space from 1-9
 * Player one select move
 * Player two select move
@@ -19,7 +18,7 @@ This is the tic tac toe project of the Ruby course of Main curriculum at [Microv
 * The game goes on until a player creates a line of three horizontal, vertical or diagonal
 * There will be a draw if the board gets all of it's spaces filled
 
-#### Screenshots
+#### Screenshots v1
 
 ![screenshot_1](screenshots/screenshot_1.png)
 ![screenshot_2](screenshots/screenshot_2.png)

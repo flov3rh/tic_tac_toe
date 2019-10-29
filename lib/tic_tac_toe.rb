@@ -2,7 +2,7 @@
 
 # tiTacToe class for the game logic
 class TicTacToe
-  attr_reader :board, :moves, :player_one, :player_two, :turn
+  attr_reader :board, :moves, :player_one, :player_two, :turn, :winner
 
   def initialize(players, main, board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '], moves = 0)
     # Initialize our board and game
